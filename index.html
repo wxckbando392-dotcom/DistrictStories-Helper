@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Stories V5 | Illegal Area Helper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #07090d;
+            --bg-card: #0c0f14;
+            --bg-card-hover: #131822;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(230, 57, 70, 0.4);
+            --accent-red: #e63946;
+            --accent-glow: rgba(230, 57, 70, 0.25);
+            --text-main: #f8f9fa;
+            --text-muted: #94a3b8;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(7, 9, 13, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+        }
+
+        .nav-brand span {
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 160px 40px 80px;
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.08) 0%, transparent 60%);
+        }
+
+        .hero-logo-large {
+            height: 110px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
+            margin-bottom: -10px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .btn-primary {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #d90429;
+            border-color: #d90429;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        /* Section Headings */
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 700px;
+        }
+
+        /* Random Wheel Section */
+        .wheel-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        }
+
+        .wheel-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toggle-group {
+            display: flex;
+            background: var(--bg-deep);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--bg-card-hover);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .wheel-strip-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-color);
+            padding: 20px 0;
+            margin-bottom: 24px;
+        }
+
+        .wheel-strip-container::before, .wheel-strip-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .wheel-strip-container::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-deep), transparent);
+        }
+        .wheel-strip-container::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-deep), transparent);
+        }
+
+        .wheel-center-pointer {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: var(--accent-red);
+            transform: translateX(-50%);
+            z-index: 15;
+            box-shadow: 0 0 10px var(--accent-red);
+        }
+
+        .wheel-strip {
+            display: flex;
+            gap: 16px;
+            padding: 0 50%;
+            transition: transform 4s cubic-bezier(0.15, 0.85, 0.15, 1);
+            will-change: transform;
+        }
+
+        .wheel-item {
+            min-width: 160px;
+            height: 180px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: border-color 0.2s;
+        }
+
+        .wheel-item.highlight {
+            border-color: var(--accent-red);
+            background: var(--bg-card-hover);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .wheel-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .wheel-item .item-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .wheel-item .item-tier {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Catalog & Search */
+        .catalog-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-box input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px 12px 42px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-red);
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .catalog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .catalog-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .catalog-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .catalog-card img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .tier-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .catalog-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            background: var(--bg-deep);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Skill Tree Section */
+        .skills-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .skills-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .skill-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .skill-unlock {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-red);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .skill-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .skill-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .skill-tag {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Developer Notes / Info Box */
+        .dev-notes {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-red);
+            border-radius: 10px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .dev-notes h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dev-notes ul {
+            list-style: disc;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        footer img {
+            height: 35px;
+            opacity: 0.8;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 9, 13, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .modal-header img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="#" class="nav-brand">
+            <img src="logo.jpg" alt="DS Logo">
+            <span>DISTRICT STORIES V5</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#wheel">Supply Drop</a></li>
+            <li><a href="#catalog">Weapons & Drugs</a></li>
+            <li><a href="#skills">Skill Tree</a></li>
+            <li><a href="#attributes">Attributes</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <img src="logo.jpg" alt="DS Logo" class="hero-logo-large">
+        <h1>District Stories V5 Illegal Area</h1>
+        <p>Browse supply drops, skill information, and all firearms and drugs DS has to offer.</p>
+        <div class="hero-buttons">
+            <a href="#wheel" class="btn btn-primary"><i class="fa-solid fa-dice"></i> Open Supply Drop</a>
+            <a href="#catalog" class="btn"><i class="fa-solid fa-gun"></i> View All Weapons</a>
+            <a href="#skills" class="btn"><i class="fa-solid fa-brain"></i> View Skill Information</a>
+            <a href="#attributes" class="btn"><i class="fa-solid fa-gauge-high"></i> View Attributes</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- RANDOM WHEEL SECTION -->
+        <section id="wheel" class="wheel-section">
+            <div class="section-header">
+                <span class="section-subtitle">District Stories V5 • Illegal Area</span>
+                <h2 class="section-title">Random Wheel</h2>
+            </div>
+
+            <div class="wheel-toolbar">
+                <div class="toggle-group" id="categoryToggle">
+                    <button class="toggle-btn active" data-cat="firearms">Firearms</button>
+                    <button class="toggle-btn" data-cat="drugs">Drugs</button>
+                </div>
+                <div class="toggle-group" id="tierToggle">
+                    <button class="toggle-btn active" data-tier="0">Tier 0</button>
+                    <button class="toggle-btn" data-tier="1">Tier 1</button>
+                    <button class="toggle-btn" data-tier="2">Tier 2</button>
+                    <button class="toggle-btn" data-tier="3">Tier 3</button>
+                </div>
+            </div>
+
+            <div class="wheel-strip-container">
+                <div class="wheel-center-pointer"></div>
+                <div class="wheel-strip" id="wheelStrip">
+                    <!-- Dynamically populated items -->
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-primary" id="rollBtn" style="padding: 16px 40px; font-size: 1rem;"><i class="fa-solid fa-rotate"></i> Roll Random Drop</button>
+            </div>
+        </section>
+
+        <!-- CATALOG SECTION -->
+        <section id="catalog">
+            <div class="section-header">
+                <span class="section-subtitle">Database & Inventory</span>
+                <h2 class="section-title">Weapon & Drug Catalog</h2>
+                <p class="section-desc">A full browse area so players can see every weapon and drug reward, exact stats, and playstyle value.</p>
+            </div>
+
+            <div class="catalog-controls">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search weapons, ammo, or drugs...">
+                </div>
+            </div>
+
+            <div class="catalog-grid" id="catalogGrid">
+                <!-- Dynamically populated catalog cards -->
+            </div>
+        </section>
+
+        <!-- SKILL INFORMATION SECTION -->
+        <section id="skills">
+            <div class="section-header">
+                <span class="section-subtitle">New Roleplayer Helper</span>
+                <h2 class="section-title">Skill Information</h2>
+                <p class="section-desc">A clear guide for players to check what each route can unlock. Faction is filled with your real skill list.</p>
+            </div>
+
+            <div class="skills-layout">
+                <div class="skill-list">
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: #fff;">Faction Skill Tree (15 Skills)</h3>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 3</span>
+                            <span class="skill-name">Nametags</span>
+                            <span class="skill-desc">Enables viewing nametags above players. Must be in a faction for /mark.</span>
+                        </div>
+                        <span class="skill-tag">Vision Utility</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 5</span>
+                            <span class="skill-name">Improvement</span>
+                            <span class="skill-desc">Allows Faction Members to add an additional slot to their vehicles.</span>
+                        </div>
+                        <span class="skill-tag">Vehicle Upgrade</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 7</span>
+                            <span class="skill-name">Tazer Resistance</span>
+                            <span class="skill-desc">No effect by tasers once per 30 seconds.</span>
+                        </div>
+                        <span class="skill-tag">Combat Defense</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 7</span>
+                            <span class="skill-name">Take Cover</span>
+                            <span class="skill-desc">Allows the user to have access to Q Peak.</span>
+                        </div>
+                        <span class="skill-tag">Peek Access</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 8</span>
+                            <span class="skill-name">Masked Identity</span>
+                            <span class="skill-desc">When a user has a mask on, it toggles their tognames to 'MASKED'.</span>
+                        </div>
+                        <span class="skill-tag">Identity Concealment</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 10</span>
+                            <span class="skill-name">Swift Hands</span>
+                            <span class="skill-desc">Gives access to Stomach Pull animation.</span>
+                        </div>
+                        <span class="skill-tag">Animation Access</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 10</span>
+                            <span class="skill-name">Spot 'Em Got 'Em</span>
+                            <span class="skill-desc">Increases the radius of tognames for marked players.</span>
+                        </div>
+                        <span class="skill-tag">Mark Radius</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 12</span>
+                            <span class="skill-name">Adrenaline Rush</span>
+                            <span class="skill-desc">When you drop below 40 HP when being hit by a weapon, you'll get a run speed boost.</span>
+                        </div>
+                        <span class="skill-tag">Movement Boost</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 12</span>
+                            <span class="skill-name">Top Hustler</span>
+                            <span class="skill-desc">Increases your money limit by $200,000.</span>
+                        </div>
+                        <span class="skill-tag">Money Cap</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 12</span>
+                            <span class="skill-name">Fortitude</span>
+                            <span class="skill-desc">Allows the user to not have the limping animation while getting shot.</span>
+                        </div>
+                        <span class="skill-tag">Combat Defense</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 13</span>
+                            <span class="skill-name">Hot Driver</span>
+                            <span class="skill-desc">Allows Users to Improve The Cars Vehicle Meta during a Chase.</span>
+                        </div>
+                        <span class="skill-tag">Chase Skill</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 15</span>
+                            <span class="skill-name">Rapid Deployment</span>
+                            <span class="skill-desc">Allows the user to maneuver in and out of vehicles slightly faster.</span>
+                        </div>
+                        <span class="skill-tag">Entry Speed</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 18</span>
+                            <span class="skill-name">First Person Shooter</span>
+                            <span class="skill-desc">Allows No Screenshake or recoil in first person.</span>
+                        </div>
+                        <span class="skill-tag">Aim Control</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 20</span>
+                            <span class="skill-name">Headshot Kings</span>
+                            <span class="skill-desc">Deal additional 3 damage to the head with a firearm.</span>
+                        </div>
+                        <span class="skill-tag">Firearm Bonus</span>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-unlock">Unlock 20</span>
+                            <span class="skill-name">Sharpshooter</span>
+                            <span class="skill-desc">Takes out 2 of the worst screenshakes while aiming a firearm.</span>
+                        </div>
+                        <span class="skill-tag">Aim Control</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="dev-notes">
+                        <h4><i class="fa-solid fa-circle-info" style="color: var(--accent-red);"></i> Guide Note</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">This section is built as a viewer, not a builder. Players can read what skills each character route can have before choosing how they want to play.</p>
+                    </div>
+
+                    <div class="dev-notes">
+                        <h4><i class="fa-solid fa-code" style="color: var(--accent-red);"></i> GunModule Notes</h4>
+                        <ul>
+                            <li><strong>38 Special:</strong> Uses .380 ACP ammo in script.</li>
+                            <li><strong>Headshots:</strong> One-shot headshots bypass base damage table.</li>
+                            <li><strong>Automatic Fires:</strong> Kruger SR40 & Micro Drago fire at 1 shot per 0.05s.</li>
+                            <li><strong>Editing Stats:</strong> Edit ReplicatedStorage.Resource.Modules.GunModule.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ATTRIBUTES SECTION -->
+        <section id="attributes">
+            <div class="section-header">
+                <span class="section-subtitle">Character Progression</span>
+                <h2 class="section-title">Player Attributes</h2>
+                <p class="section-desc">Train your character stats to gain vital advantages across the city.</p>
+            </div>
+
+            <div class="catalog-grid">
+                <div class="catalog-card">
+                    <h3>Stamina</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Improves sprint duration and recovery speed. Trained by continuous running and physical exertion.</p>
+                </div>
+                <div class="catalog-card">
+                    <h3>Shooting</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Reduces weapon recoil and spread. Trained at firing ranges and active engagement.</p>
+                </div>
+                <div class="catalog-card">
+                    <h3>Strength</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Increases melee damage and physical resilience. Trained through workouts and unarmed combat.</p>
+                </div>
+                <div class="catalog-card">
+                    <h3>Driving</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Enhances vehicle handling and top speed control during high-speed pursuits.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <img src="logo.jpg" alt="DS Logo">
+        <p>&copy; 2026 District Stories V5. All rights reserved.</p>
+    </footer>
+
+    <!-- Inspect Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <img src="gun.jpg" id="modalImg" alt="Weapon">
+                <div>
+                    <span class="tier-badge" id="modalTier">Tier 3</span>
+                    <h3 id="modalTitle" style="font-size: 1.3rem; margin-top: 4px; color: #fff;">Weapon Name</h3>
+                </div>
+            </div>
+            <div class="stats-grid" id="modalStats">
+                <!-- Dynamically populated stats -->
+            </div>
+            <p id="modalDesc" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;"></p>
+        </div>
+    </div>
+
+    <script>
+        // Gun & Drug Database
+        const database = {
+            firearms: [
+                // Tier 0
+                { name: "Knife", tier: "Tier 0", ammo: "Melee", damage: "25", mag: "N/A", fireGap: "0.4s", spread: "0", recoil: "0", desc: "Close-quarters melee weapon for silent engagements." },
+                { name: "Bat", tier: "Tier 0", ammo: "Melee", damage: "30", mag: "N/A", fireGap: "0.5s", spread: "0", recoil: "0", desc: "Heavy blunt melee weapon for street altercations." },
+                { name: "38 Special", tier: "Tier 0", ammo: ".380 ACP", damage: "23", mag: "6", fireGap: "0.35s", spread: "0-0.5", recoil: "0.0195", desc: "Classic revolver. Note: Uses .380 ACP ammo in script." },
+
+                // Tier 1
+                { name: "Block 29", tier: "Tier 1", ammo: "9mm", damage: "33", mag: "10", fireGap: "0.65s", spread: "0-0.5", recoil: "0.0125", desc: "Compact high-stopping power sidearm." },
+                { name: "Glock 26 (Block)", tier: "Tier 1", ammo: "9mm", damage: "24", mag: "10", fireGap: "0.27s", spread: "0-0.7", recoil: "0.0095", desc: "Concealable subcompact variant." },
+                { name: "Springfield B-Cat", tier: "Tier 1", ammo: "9mm", damage: "28", mag: "11", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Reliable mid-tier sidearm." },
+                { name: "Glock 43x", tier: "Tier 1", ammo: "9mm", damage: "28", mag: "10", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Slimline concealable carry pistol." },
+                { name: "Glock 27 Gen 4", tier: "Tier 1", ammo: ".40 S&W", damage: "30", mag: "9", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Subcompact .40 S&W powerhouse." },
+                { name: "Glock 26 Gen 3/4", tier: "Tier 1", ammo: "9mm", damage: "28", mag: "10", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Standard double-stack subcompact 9mm." },
+
+                // Tier 2
+                { name: "Glock 20 Gen 4", tier: "Tier 2", ammo: "10mm", damage: "32", mag: "15", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Full-size 10mm heavy sidearm." },
+                { name: "Glock 40 Gen 4", tier: "Tier 2", ammo: "10mm", damage: "32", mag: "15", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Long slide 10mm tactical pistol." },
+                { name: "Glock 22 Gen 4", tier: "Tier 2", ammo: ".40 S&W", damage: "30", mag: "15", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Standard duty .40 S&W pistol." },
+                { name: "Glock 23 Gen 5", tier: "Tier 2", ammo: ".40 S&W", damage: "30", mag: "13", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Compact .40 S&W service pistol." },
+                { name: "Glock 41 Gen 4", tier: "Tier 2", ammo: ".45 ACP", damage: "33", mag: "13", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Tactical .45 ACP long slide." },
+                { name: "Glock 49 Gen 5", tier: "Tier 2", ammo: "9mm", damage: "28", mag: "15", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Crossover slide configuration." },
+                { name: "Glock 19 Gen 5", tier: "Tier 2", ammo: "9mm", damage: "28", mag: "15", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "World-renowned compact 9mm." },
+                { name: "Taurus G2c", tier: "Tier 2", ammo: "9mm", damage: "28", mag: "12", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Reliable budget compact pistol." },
+                { name: "Rapture", tier: "Tier 2", ammo: "9mm", damage: "27", mag: "15", fireGap: "0.28s", spread: "0-0.5", recoil: "0.009", desc: "Custom rapid-cycle sidearm." },
+                { name: "Polymer80", tier: "Tier 2", ammo: "9mm", damage: "25", mag: "17", fireGap: "0.26s", spread: "0-0.6", recoil: "0.0085", desc: "Custom serialized ghost build." },
+                { name: "Block 20", tier: "Tier 2", ammo: "9mm", damage: "29", mag: "15", fireGap: "0.35s", spread: "0-0.5", recoil: "0.0105", desc: "Street modified heavy pistol." },
+                { name: "JA9", tier: "Tier 2", ammo: "9mm", damage: "26", mag: "10", fireGap: "0.3s", spread: "0-0.5", recoil: "0.0105", desc: "Affordable street pistol." },
+
+                // Tier 3
+                { name: "Micro Drago", tier: "Tier 3", ammo: "9mm", damage: "38", mag: "30", fireGap: "0.05s (Auto)", spread: "0-0.6", recoil: "0.0095", desc: "Automatic machine pistol powerhouse." },
+                { name: "PSA Blocker", tier: "Tier 3", ammo: "9mm", damage: "25", mag: "17", fireGap: "0.1s", spread: "0-0.5", recoil: "0.0075", desc: "High fire-rate tactical pistol." },
+                { name: "Glock 17 Gen 3 / 4 / 5", tier: "Tier 3", ammo: "9mm", damage: "28", mag: "17", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "The gold standard full-size 9mm service pistol." },
+                { name: "Glock 19x", tier: "Tier 3", ammo: "9mm", damage: "28", mag: "17", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Coyote brown crossover pistol." },
+                { name: "Glock 34 Gen 5", tier: "Tier 3", ammo: "9mm", damage: "28", mag: "17", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Competition long slide pistol." },
+                { name: "Glock 45", tier: "Tier 3", ammo: "9mm", damage: "28", mag: "17", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Compact crossover tactical pistol." },
+                { name: "PSA Dagger", tier: "Tier 3", ammo: "9mm", damage: "28", mag: "17", fireGap: "0.5s", spread: "0-0.5", recoil: "0.0085", desc: "Modern polymer striker-fired pistol." },
+                { name: "Kruger SR45", tier: "Tier 3", ammo: ".45 ACP", damage: "34", mag: "10", fireGap: "0.4s", spread: "0-0.5", recoil: "0.011", desc: "Heavy caliber stopping power." },
+                { name: "Kruger SR40", tier: "Tier 3", ammo: ".40 S&W", damage: "30", mag: "15", fireGap: "0.05s (Auto)", spread: "0-0.5", recoil: "0.01", desc: "Fully automatic customized service pistol." },
+                { name: "Block Custom", tier: "Tier 3", ammo: "9mm", damage: "25", mag: "17", fireGap: "0.25s", spread: "0-0.5", recoil: "0.0075", desc: "Customized high-end street piece." }
+            ],
+            drugs: [
+                { name: "Street Weed", tier: "Tier 1", ammo: "Contraband", damage: "N/A", mag: "N/A", fireGap: "N/A", spread: "N/A", recoil: "N/A", desc: "Basic street product for quick hustle cash." },
+                { name: "Cocaine Brick", tier: "Tier 2", ammo: "Contraband", damage: "N/A", mag: "N/A", fireGap: "N/A", spread: "N/A", recoil: "N/A", desc: "High-value bulk contraband for syndicate runs." },
+                { name: "Methamphetamine", tier: "Tier 2", ammo: "Contraband", damage: "N/A", mag: "N/A", fireGap: "N/A", spread: "N/A", recoil: "N/A", desc: "Potent stimulant distributed across turf." },
+                { name: "Ecstasy Pills", tier: "Tier 1", ammo: "Contraband", damage: "N/A", mag: "N/A", fireGap: "N/A", spread: "N/A", recoil: "N/A", desc: "Popular nightlife and club supply." }
+            ]
+        };
+
+        // Render Catalog
+        function renderCatalog(filter = "", category = "all") {
+            const grid = document.getElementById("catalogGrid");
+            grid.innerHTML = "";
+
+            let items = [];
+            if (category === "all" || category === "firearms") items = items.concat(database.firearms);
+            if (category === "all" || category === "drugs") items = items.concat(database.drugs);
+
+            const filtered = items.filter(item => 
+                item.name.toLowerCase().includes(filter.toLowerCase()) ||
+                item.tier.toLowerCase().includes(filter.toLowerCase()) ||
+                item.ammo.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filtered.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "catalog-card";
+                card.innerHTML = `
+                    <div class="catalog-card-header">
+                        <img src="gun.jpg" alt="${item.name}">
+                        <span class="tier-badge">${item.tier}</span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Ammo</span>
+                            <span class="stat-value">${item.ammo}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Damage</span>
+                            <span class="stat-value">${item.damage}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Mag</span>
+                            <span class="stat-value">${item.mag}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Fire Gap</span>
+                            <span class="stat-value">${item.fireGap}</span>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener("click", () => openModal(item));
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal Logic
+        function openModal(item) {
+            document.getElementById("modalImg").src = "gun.jpg";
+            document.getElementById("modalTier").textContent = item.tier;
+            document.getElementById("modalTitle").textContent = item.name;
+            document.getElementById("modalDesc").textContent = item.desc;
+            
+            const statsGrid = document.getElementById("modalStats");
+            statsGrid.innerHTML = `
+                <div class="stat-item"><span class="stat-label">Ammo Type</span><span class="stat-value">${item.ammo}</span></div>
+                <div class="stat-item"><span class="stat-label">Damage</span><span class="stat-value">${item.damage}</span></div>
+                <div class="stat-item"><span class="stat-label">Magazine</span><span class="stat-value">${item.mag}</span></div>
+                <div class="stat-item"><span class="stat-label">Fire Gap</span><span class="stat-value">${item.fireGap}</span></div>
+                <div class="stat-item"><span class="stat-label">Spread</span><span class="stat-value">${item.spread}</span></div>
+                <div class="stat-item"><span class="stat-label">Recoil</span><span class="stat-value">${item.recoil}</span></div>
+            `;
+            document.getElementById("modalOverlay").classList.add("active");
+        }
+
+        document.getElementById("modalClose").addEventListener("click", () => {
+            document.getElementById("modalOverlay").classList.remove("active");
+        });
+        document.getElementById("modalOverlay").addEventListener("click", (e) => {
+            if (e.target === document.getElementById("modalOverlay")) {
+                document.getElementById("modalOverlay").classList.remove("active");
+            }
+        });
+
+        // Search listener
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            renderCatalog(e.target.value);
+        });
+
+        // Wheel Logic
+        let currentWheelCat = "firearms";
+        let currentWheelTier = "3";
+
+        function setupWheel(cat, tier) {
+            const strip = document.getElementById("wheelStrip");
+            strip.innerHTML = "";
+
+            let source = cat === "firearms" ? database.firearms.filter(f => f.tier.includes(tier)) : database.drugs;
+            if (source.length === 0) source = database.firearms; // Fallback
+
+            // Repeat items to make strip scroll smoothly
+            let pool = [];
+            for (let i = 0; i < 5; i++) {
+                pool = pool.concat(source);
+            }
+
+            pool.forEach((item, index) => {
+                const el = document.createElement("div");
+                el.className = "wheel-item" + (index === 15 ? " highlight" : "");
+                el.innerHTML = `
+                    <img src="gun.jpg" alt="${item.name}">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-tier">${item.tier}</div>
+                `;
+                strip.appendChild(el);
+            });
+        }
+
+        // Toggle buttons
+        document.querySelectorAll("#categoryToggle .toggle-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll("#categoryToggle .toggle-btn").forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                currentWheelCat = e.target.dataset.cat;
+                setupWheel(currentWheelCat, currentWheelTier);
+            });
+        });
+
+        document.querySelectorAll("#tierToggle .toggle-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll("#tierToggle .toggle-btn").forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                currentWheelTier = e.target.dataset.tier;
+                setupWheel(currentWheelCat, currentWheelTier);
+            });
+        });
+
+        document.getElementById("rollBtn").addEventListener("click", () => {
+            const strip = document.getElementById("wheelStrip");
+            const randomOffset = Math.floor(Math.random() * 10) * 176 - 800;
+            strip.style.transition = "transform 4s cubic-bezier(0.15, 0.85, 0.15, 1)";
+            strip.style.transform = `translateX(${randomOffset}px)`;
+        });
+
+        // Initialize
+        renderCatalog();
+        setupWheel(currentWheelCat, currentWheelTier);
+    </script>
+</body>
+</html>
